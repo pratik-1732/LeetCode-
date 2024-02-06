@@ -9,13 +9,13 @@ public:
 	
 	    map<string,int> lenCount;
 	    int count=0; string ans;
-	    map<int,int> cntAlpha;
+	    map<char,int> cntAlpha;
 	    
 	    for(int i=0; i<s.length(); i++){
 	    	// cout<<i<<endl;
             // if(s[i]==' ') continue;
-		    cntAlpha[s[i]-'a']++;
-		    if(cntAlpha[s[i]-'a']==1){
+		    cntAlpha[s[i]]++;
+		    if(cntAlpha[s[i]]==1){
 			    count++;
 			    ans+=s[i];
 			    lenCount.insert({ans,count});
