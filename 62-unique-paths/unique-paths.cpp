@@ -12,20 +12,37 @@ public:
         return dp[row][col]= up+left;
     }
     int uniquePaths(int m, int n) {
-        vector<vector<int>> dp(m, vector<int>(n, -1));
-        // return output(m-1, n-1, dp);
+        // vector<vector<int>> dp(m, vector<int>(n, -1));
+        // // return output(m-1, n-1, dp);
+        // for(int row=0; row<m; row++){
+        //     for(int col=0; col<n; col++){
+        //         if(row==0 && col==0) dp[row][col]= 1;
+        //         else{
+        //             int up=0, left=0;
+        //             if(row>0) up= dp[row-1][col];
+        //             if(col>0) left= dp[row][col-1];
+
+        //             dp[row][col]= up+left;
+        //         }
+        //     }
+        // }
+        // return dp[m-1][n-1];
+
+        vector<int> prev(n,0);
         for(int row=0; row<m; row++){
+            vector<int> curr(n);
             for(int col=0; col<n; col++){
-                if(row==0 && col==0) dp[row][col]= 1;
+                if(row==0 && col==0) curr[col]=1;
                 else{
                     int up=0, left=0;
-                    if(row>0) up= dp[row-1][col];
-                    if(col>0) left= dp[row][col-1];
+                    if(row>0) up= prev[col];
+                    if(col>0) left= curr[col-1];
 
-                    dp[row][col]= up+left;
+                    curr[col]= up+left;
                 }
             }
+            prev=curr;
         }
-        return dp[m-1][n-1];
+        return prev[n-1];
     }
 };
