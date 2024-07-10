@@ -21,25 +21,53 @@ public:
         // for(int i=0; i<n; i++){
         //     mini= min(mini, output(n-1, i, n, matrix, dp));
         // }
+        
+
+        // for(int i=0; i<n; i++){
+        //     dp[0][i]= matrix[0][i];
+        // }
+
+        // for(int i=1; i<n; i++){
+        //     for(int j=0; j<n; j++){
+        //         int ld=1e8, s=1e8, rd=1e8;
+        //         if(j>0) ld= matrix[i][j]+ dp[i-1] [j-1];
+        //         s= matrix[i][j]+ dp[i-1] [j]; 
+        //         if(j<n-1) rd= matrix[i][j]+ dp[i-1] [j+1];
+
+        //         dp[i][j]= min(ld, min(s, rd));
+        //     }
+        // }
+
+        // int mini= INT_MAX;
+        // for(int i=0; i<n; i++){
+        //     mini= min(mini, dp[n-1][i]);
+        // }
+        // return mini;
+
+
+
+        vector<int> prev(n, -1);
 
         for(int i=0; i<n; i++){
-            dp[0][i]= matrix[0][i];
+            prev[i]= matrix[0][i];
         }
 
         for(int i=1; i<n; i++){
+            vector<int> curr(n);
             for(int j=0; j<n; j++){
                 int ld=1e8, s=1e8, rd=1e8;
-                if(j>0) ld= matrix[i][j]+ dp[i-1] [j-1];
-                s= matrix[i][j]+ dp[i-1] [j]; 
-                if(j<n-1) rd= matrix[i][j]+ dp[i-1] [j+1];
+                if(j>0) ld= matrix[i][j]+ prev[j-1];
+                s= matrix[i][j]+ prev[j]; 
+                if(j<n-1) rd= matrix[i][j]+ prev[j+1];
 
-                dp[i][j]= min(ld, min(s, rd));
+                curr[j]= min(ld, min(s, rd));
             }
+            prev=curr;
         }
 
         int mini= INT_MAX;
         for(int i=0; i<n; i++){
-            mini= min(mini, dp[n-1][i]);
+            mini= min(mini, prev[i]);
         }
         return mini;
     }
