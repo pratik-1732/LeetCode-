@@ -12,18 +12,18 @@ public:
     //     return dp[ind][buy][chance]= max(prices[ind]+output(ind+1, 1, chance-1, n, prices, dp), output(ind+1, 0, chance, n, prices, dp));
     // }
 
-    int f(int ind, int transaction, int n, vector<int>& prices, vector<vector<int>> &dp){
-        if(ind==n || transaction==4) return 0;
+    // int f(int ind, int transaction, int n, vector<int>& prices, vector<vector<int>> &dp){
+    //     if(ind==n || transaction==4) return 0;
 
-        if(dp[ind][transaction] != -1) return dp[ind][transaction];
+    //     if(dp[ind][transaction] != -1) return dp[ind][transaction];
 
-        //buy 0,2
-        if(transaction%2==0){
-            return dp[ind][transaction]= max(-prices[ind]+f(ind+1, transaction+1, n, prices, dp), f(ind+1, transaction, n, prices, dp));
-        }
-        //sell 1,2
-        return dp[ind][transaction]= max(prices[ind]+f(ind+1, transaction+1, n, prices, dp), f(ind+1, transaction, n, prices, dp));
-    }
+    //     //buy 0,2
+    //     if(transaction%2==0){
+    //         return dp[ind][transaction]= max(-prices[ind]+f(ind+1, transaction+1, n, prices, dp), f(ind+1, transaction, n, prices, dp));
+    //     }
+    //     //sell 1,2
+    //     return dp[ind][transaction]= max(prices[ind]+f(ind+1, transaction+1, n, prices, dp), f(ind+1, transaction, n, prices, dp));
+    // }
 
     int maxProfit(vector<int>& prices) {
         int n= prices.size();
@@ -57,8 +57,23 @@ public:
         // }
         // return dp[0][1][2];
 
-        vector<vector<int>> dp(n, vector<int>(4, -1));
+        vector<vector<int>> dp(n+1, vector<int>(5, 0));
 
-        return f(0, 0, n, prices, dp);
+        //return f(0, 0, n, prices, dp);
+
+        for(int ind=n-1; ind>=0; ind--){
+            for(int transaction=3; transaction>=0; transaction--){
+                //buy 0,2
+                if(transaction%2==0){
+                    dp[ind][transaction]= max(-prices[ind]+dp[ind+1] [transaction+1], dp[ind+1] [transaction]);
+                }
+                //sell 1,2
+                else{
+                    dp[ind][transaction]= max(prices[ind]+dp[ind+1] [transaction+1], dp[ind+1] [transaction]);
+                }
+            }
+        }
+
+        return dp[0][0];
     }
 };
