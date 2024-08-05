@@ -57,23 +57,41 @@ public:
         // }
         // return dp[0][1][2];
 
-        vector<vector<int>> dp(n+1, vector<int>(5, 0));
+        //vector<vector<int>> dp(n+1, vector<int>(5, 0));
 
         //return f(0, 0, n, prices, dp);
+
+        // for(int ind=n-1; ind>=0; ind--){
+        //     for(int transaction=3; transaction>=0; transaction--){
+        //         //buy 0,2
+        //         if(transaction%2==0){
+        //             dp[ind][transaction]= max(-prices[ind]+dp[ind+1] [transaction+1], dp[ind+1] [transaction]);
+        //         }
+        //         //sell 1,2
+        //         else{
+        //             dp[ind][transaction]= max(prices[ind]+dp[ind+1] [transaction+1], dp[ind+1] [transaction]);
+        //         }
+        //     }
+        // }
+
+        // return dp[0][0];
+
+        vector<int> after(5, 0), curr(5, 0);
 
         for(int ind=n-1; ind>=0; ind--){
             for(int transaction=3; transaction>=0; transaction--){
                 //buy 0,2
                 if(transaction%2==0){
-                    dp[ind][transaction]= max(-prices[ind]+dp[ind+1] [transaction+1], dp[ind+1] [transaction]);
+                    curr[transaction]= max(-prices[ind]+after[transaction+1], after[transaction]);
                 }
                 //sell 1,2
                 else{
-                    dp[ind][transaction]= max(prices[ind]+dp[ind+1] [transaction+1], dp[ind+1] [transaction]);
+                    curr[transaction]= max(prices[ind]+after[transaction+1], after[transaction]);
                 }
             }
+            after=curr;
         }
 
-        return dp[0][0];
+        return after[0];
     }
 };
