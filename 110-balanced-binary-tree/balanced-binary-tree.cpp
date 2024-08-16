@@ -11,24 +11,43 @@
  */
 class Solution {
 public:
-    int height(TreeNode* root){
-        if(root==NULL) return 0;
+    // int height(TreeNode* root){
+    //     if(root==NULL) return 0;
 
-        int left= height(root->left);
-        int right= height(root-> right);
+    //     int left= height(root->left);
+    //     int right= height(root-> right);
         
-        int ans= max(left, right)+1;
+    //     int ans= max(left, right)+1;
+    //     return ans;
+    // }
+    pair<bool, int> check(TreeNode* root){
+        if(root==NULL){
+            pair<bool, int> p= {true, 0};
+            return p;
+        }
+
+        pair<bool, int> left= check(root->left);
+        pair<bool, int> right= check(root->right);
+
+        bool rans= right.first;
+        bool lans= left.first;
+        bool diff= abs(left.second-right.second)<=1;
+        pair<bool, int> ans;
+        ans.second= max(left.second, right.second)+1;
+        if(lans && rans && diff) ans.first=true;
+        else ans.first=false;
         return ans;
     }
     bool isBalanced(TreeNode* root) {
-        if(root==NULL) return true;
+        // if(root==NULL) return true;
 
-        bool left= isBalanced(root->left);
-        bool right= isBalanced(root->right);
+        // bool left= isBalanced(root->left);
+        // bool right= isBalanced(root->right);
 
-        bool diff= abs(height(root->left)-height(root->right))<=1;
+        // bool diff= abs(height(root->left)-height(root->right))<=1;
 
-        if(left && right && diff) return true;
-        else return false;
+        // if(left && right && diff) return true;
+        // else return false;
+        return check(root).first;
     }
 };
