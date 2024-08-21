@@ -25,8 +25,8 @@ public:
      void output(TreeNode* root, vector<int> &inorder){
         if(root==NULL) return;
 
-        output(root->left, inorder);
         inorder.push_back(root->val);
+        output(root->left, inorder);
         output(root->right, inorder);
     }
     int kthSmallest(TreeNode* root, int k) {
@@ -36,6 +36,7 @@ public:
 
         vector<int> inorder;
         output(root, inorder);
+        sort(inorder.begin(), inorder.end());
         return inorder[k-1];
     }
 };
