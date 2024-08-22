@@ -11,22 +11,55 @@
  */
 class Solution {
 public:
-    void inorder(vector<int> &in, TreeNode* root){
-        if(root==NULL) return;
-        inorder(in, root->left);
-        in.push_back(root->val);
-        inorder(in, root->right);
+    stack<TreeNode*> stN;
+    stack<TreeNode*> stB;
+
+    void pushInStackN(TreeNode* node){
+        while(node!=NULL) {
+            stN.push(node);
+            node= node->left;
+        }
+    }
+    void pushInStackB(TreeNode* node){
+        while(node!=NULL) {
+            stB.push(node);
+            node= node->right;
+        }
     }
     bool findTarget(TreeNode* root, int k) {
-        vector<int> in;
-        inorder(in, root);
-        int l=0, r=in.size()-1;
-        int sum=0;
-        while(l<r){
-            if(in[l]+in[r]==k) return true;
-            else if(in[l]+in[r]>k) r--;
-            else l++;
+        pushInStackN(root); pushInStackB(root);
+        int low= next();
+        int high= before();
+        while(low!=high){
+            if(!hasNextN() || !hasNextB()) return false;
+            if(low+high==k) return true;
+            else if(low+high>k){
+                high= before();
+            }
+            else{
+                low=next();
+            }
         }
+        return false;
+    }
+    int next(){
+        TreeNode* temp= stN.top();
+        stN.pop();
+        if(temp->right) pushInStackN(temp->right);
+        return temp->val;
+    }
+    int before(){
+        TreeNode* temp= stB.top();
+        stB.pop();
+        if(temp->left) pushInStackB(temp->left);
+        return temp->val;
+    }
+    bool hasNextN(){
+        if(!stN.empty()) return true;
+        return false;
+    }
+    bool hasNextB(){
+        if(!stB.empty()) return true;
         return false;
     }
 };
