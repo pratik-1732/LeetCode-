@@ -1,26 +1,22 @@
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-       vector<pair<int,int>> ans;
-	int index=0;
-	for(auto i: nums){
-		ans.push_back(make_pair(i,index++));
-	}
-	sort(ans.begin(), ans.end());
-	int i=0, j=ans.size()-1;
-	while(i<j){
-		if(ans[i].first+ans[j].first==target){
-			vector<int> v;
-			v.push_back(ans[i].second);
-			v.push_back(ans[j].second);
-			return v;
-			i++;
-		}
-		else if(ans[i].first+ans[j].first>target){
-			j--;
-		}
-		else i++;
-	}
-	return {};
+        vector<int> v;
+        vector<pair<int, int>> vp;
+        for(int i=0; i<nums.size(); i++){
+            vp.push_back({nums[i], i});
+        }
+        sort(vp.begin(), vp.end());
+        int l=0, r=nums.size()-1;
+        while(l<r){
+            if(vp[l].first+vp[r].first==target){
+                v.push_back(vp[l].second);
+                v.push_back(vp[r].second);
+                return v;
+            }
+            else if(vp[l].first+vp[r].first>target) r--;
+            else l++;
+        }
+        return v;
     }
 };
