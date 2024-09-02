@@ -1,70 +1,39 @@
 class Solution {
 public:
-    // bool checkCycle(vector<vector<int>>& adj, int numCourses, int currNode, vector<int>& visited, vector<int>& pathVis){
-    //     vector<int> stack;
-    //     stack.push_back(currNode);
-
-    //     while(!stack.empty()){
-    //         int node = stack.back();
-    //         stack.pop_back();
-
-    //         if(!visited[node]){
-    //             visited[node] = 1;
-    //             pathVis[node] = 1;
-    //             stack.push_back(node);
-
-    //             for (auto v: adj[node]){
-    //                 if (!visited[v]){
-    //                     stack.push_back(v);
-    //                 }
-    //                 if(pathVis[v]){
-    //                     return true;
-    //                 }
-    //             }
-    //         }
-    //         else if(pathVis[node]){
-    //             pathVis[node] = 0;
-    //         }
-    //     }
-
-    //     return false;
-    // }
-
-    bool checkCycle(vector<vector<int>>& adj, int currNode, vector<int>& visited, vector<int>& pathVis){
-        visited[currNode] = 1;
-        pathVis[currNode] = 1;
-
-        for(auto v: adj[currNode]){
-            if (!visited[v]){
-                if(checkCycle(adj, v, visited, pathVis)){
-                    return true;
-                }
-            }
-            else if (pathVis[v]){
-                return true;
-            }
-        }
-        pathVis[currNode] = 0;
-        return false;
-    }
-
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        vector<vector<int>> adj(numCourses);
-        vector<int> visited(numCourses, 0);
-        vector<int> pathVis(numCourses, 0);
+        vector<vector<int>> adj(numCourses+1);
 
-        for(auto v: prerequisites){
-            adj[v[0]].push_back(v[1]);
+        int n= prerequisites.size();
+
+        for(int i=0; i<n; i++){
+            adj[prerequisites[i][0]].push_back(prerequisites[i][1]);
         }
-        
+
+        vector<int> indegree(numCourses, 0);
+        int ans=0;
+
         for(int i=0; i<numCourses; i++){
-            if (!visited[i]){
-                if(checkCycle(adj, i, visited, pathVis)==true){
-                    return false;
-                }
+            for(auto it: adj[i]){
+                indegree[it]++;
             }
         }
 
-        return true;
+        queue<int> q;
+        for(int i=0; i<numCourses; i++){
+            if(indegree[i]==0) q.push(i);
+        }
+        while(!q.empty()){
+            int node= q.front();
+            q.pop();
+            ans++;
+
+            for(auto it: adj[node]){
+                indegree[it]--;
+                if(indegree[it]==0) q.push(it);
+            }
+        }
+
+        if(ans==numCourses) return true;
+        return false;
     }
 };
