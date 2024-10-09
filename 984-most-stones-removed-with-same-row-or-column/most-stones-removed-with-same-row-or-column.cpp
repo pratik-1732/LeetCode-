@@ -69,12 +69,15 @@ public:
             stoneNodes[row]=1;
             stoneNodes[modifiedCol]=1;
         }
-        set<int> uniqueParents;
+        // set<int> uniqueParents;
+        int cnt=0;
         for(auto it: stoneNodes){
-            int ulParent= ds.findUParent(it.first);
-            uniqueParents.insert(ulParent);
+            // int ulParent= ds.findUParent(it.first);
+            // uniqueParents.insert(ulParent);
+            if(ds.findUParent(it.first)==it.first) cnt++;
         }
-        int ans= m-uniqueParents.size();
+        // int ans= m-uniqueParents.size();
+        int ans= m-cnt;
         // cout<<m<<" "<<ans<<endl;
         if(ans==0) return 0;
         else return ans;
