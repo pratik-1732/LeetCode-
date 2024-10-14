@@ -13,30 +13,47 @@ public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
         if(head==NULL || head->next==NULL) return NULL;
 
-        int cnt=0; 
-        ListNode* temp= head;
-        while(temp!=NULL){
-            cnt++;
-            temp= temp->next;
-        }
-        int del= cnt-n;
-        if (del == 0) {
-            ListNode* newHead = head->next;
-            delete head; // Delete the original head
-            return newHead; // Return the new head of the list
-        }
-        temp= head;
-        ListNode* prev= NULL;
+        // int cnt=0; 
+        // ListNode* temp= head;
+        // while(temp!=NULL){
+        //     cnt++;
+        //     temp= temp->next;
+        // }
+        // int del= cnt-n;
+        // if (del == 0) {
+        //     ListNode* newHead = head->next;
+        //     delete head; 
+        //     return newHead; 
+        // }
+        // temp= head;
+        // ListNode* prev= NULL;
         
-        while(del>0){
-            prev= temp;
-            temp= temp->next;
+        // while(del>0){
+        //     prev= temp;
+        //     temp= temp->next;
             
-            del--;
+        //     del--;
+        // }
+        // prev->next= temp->next;
+        // temp->next= NULL;
+        // delete temp;
+
+        ListNode* fast= head;
+        ListNode* slow= head;
+
+        for(int i=0; i<n; i++) fast= fast->next;
+        if(fast==NULL){
+            ListNode* newHead= head->next;
+            delete head;
+            return newHead;
         }
-        prev->next= temp->next;
-        temp->next= NULL;
-        delete temp;
+        while(fast->next!=NULL){
+            fast= fast->next;
+            slow= slow->next;
+        }
+        ListNode* del= slow->next;
+        slow->next= slow->next->next;
+        delete del;
 
         return head;
     }
