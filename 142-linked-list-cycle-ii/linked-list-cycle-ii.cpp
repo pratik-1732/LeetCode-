@@ -8,19 +8,27 @@
  */
 class Solution {
 public:
+    ListNode *findPoint(ListNode *fast, ListNode *temp){
+        while(fast!=temp){
+            temp= temp->next;
+            fast= fast->next;
+        }
+        return fast;
+    }
+public:
     ListNode *detectCycle(ListNode *head) {
         if(head==NULL||head->next==NULL) return NULL;
 
-        unordered_set<ListNode*> check;
+        ListNode* fast= head;
+        ListNode* slow= head;
 
-        ListNode* temp= head;
-        while(temp!=NULL){
-            if(check.find(temp)!=check.end()) {
-                return temp;
+        while(fast!=NULL && fast->next!=NULL){
+            slow= slow->next;
+            fast= fast->next->next;
+
+            if(slow==fast){
+                return findPoint(fast, head);
             }
-            else check.insert(temp);
-
-            temp= temp->next;
         }
 
         return NULL;
