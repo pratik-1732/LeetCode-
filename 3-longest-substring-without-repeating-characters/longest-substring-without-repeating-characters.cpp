@@ -1,48 +1,40 @@
+#include <bits/stdc++.h>
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-        
-	   if(s.empty()) return 0;
-	
-    if(s==" ") return 1;
+        vector<int> check(256, -1);
+        int n= s.length();
+        int l=0, r=0;
+        int cnt=0, ans=0;
 
-	
-	    map<string,int> lenCount;
-	    int count=0; string ans;
-	    map<char,int> cntAlpha;
-	    
-	    for(int i=0; i<s.length(); i++){
-	    	// cout<<i<<endl;
-            // if(s[i]==' ') continue;
-		    cntAlpha[s[i]]++;
-		    if(cntAlpha[s[i]]==1){
-			    count++;
-			    ans+=s[i];
-			    lenCount.insert({ans,count});
-		    }
-		    else{
-		    	i=i-count;
-			    // cntAlpha[s[i]-'a']=0;
-			    // fill(cntAlpha.begin(), cntAlpha.end(), 0);
-                cntAlpha.clear();
-			    count=0;
-			    ans="";
-		    }
-	    }
-	    int len=INT_MIN;
-	    for(auto i: lenCount){
-		    // cout<<i.first<<" "<<i.second<<endl;
-		    len=max(len,i.second);
-	    }
-	    //map<string, int>::iterator itr;
+        while(r<n){
+            char ch= s[r];
+            // if(find(check.begin(), check.end(), ch)!=check.end()){
+            //     cnt++;
+            //     while(l<check.size() && check[l]!=ch){
+            //         cnt--;
+            //         l++;
+            //     }
+            //     ans= max(ans, cnt);
+            // }
+            // else{
+            //     check.push_back(ch);
+            //     cnt++;
+            //     ans= max(ans, cnt);
+            // }
+            // r++;
 
-        // Display the last element in m.
-  	    // itr = lenCount.end();
-  	    // --itr;
-  	
-  	    // int len=itr->second;
-          if(len==INT_MIN) return 1;
+            if(check[s[r]]!=-1) {
+                if(check[s[r]]>=l){
+                    l= check[s[r]]+1;
+                }
+            }
+            cnt= r-l+1;
+            ans= max(ans, cnt);
+            check[s[r]]= r;
+            r++;
+        }
 
-  	    return len;
+        return ans;
     }
 };
