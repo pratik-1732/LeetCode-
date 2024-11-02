@@ -1,32 +1,29 @@
 class Solution {
 public:
-    void output(vector<int> nums, int n, int ind, set<vector<int>> &temp, vector<int> child){
-        if(ind==n){
-            sort(child.begin(), child.end());
-            temp.insert(child);
-            child.clear();
+    void output(vector<int>& nums, int ind, set<vector<int>> &st, vector<int> &temp){
+        if(ind>=nums.size()){
+            vector<int> temp2= temp;
+            sort(temp2.begin(), temp2.end());
+            st.insert(temp2);
+            temp2.clear();
             return;
         }
 
-        // take 
-        child.push_back(nums[ind]);
-        output(nums, n, ind+1, temp, child);
-        child.pop_back();
-        // not take
-        output(nums, n, ind+1, temp, child);
+        temp.push_back(nums[ind]);
+        output(nums, ind+1, st, temp);
+        temp.pop_back();
+        output(nums, ind+1, st, temp);
     }
     vector<vector<int>> subsetsWithDup(vector<int>& nums) {
-        int n=nums.size();
-        set<vector<int>> temp;
-        vector<int> child;
-        output(nums, n, 0, temp, child);
-        //auto it:: iterator= temp.begin();
+        set<vector<int>> st;
+        vector<int> temp;
+        output(nums, 0, st, temp);
+
         vector<vector<int>> ans;
-        for(auto it=temp.begin(); it!=temp.end(); it++){
-            vector<int> v;
-            v= *it;
-            ans.push_back(v);
+        for(auto it=st.begin(); it!=st.end(); it++){
+            ans.push_back(*it);
         }
+
         return ans;
     }
 };
