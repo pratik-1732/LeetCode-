@@ -5,8 +5,9 @@ public:
         int sum=0;
         for(auto it: nums){
             //cout<<it<<" "<<sum<<endl;
-            if(sum<0) sum=0;
-            sum+=it;
+            // if(sum<0) sum=0;
+            //sum+=it;
+            sum= max(sum+it, it);
             ans= max(ans, sum);
             
         }
