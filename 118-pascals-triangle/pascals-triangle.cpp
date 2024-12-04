@@ -1,42 +1,25 @@
 class Solution {
 public:
     vector<vector<int>> generate(int numRows) {
+        if(numRows==1) return {{1}};
+        if(numRows==2) return {{1}, {1,1}};
         vector<vector<int>> ans;
-        if(numRows==1) {
-            vector<int> v;
-            v.push_back(1);
-            ans.push_back(v);
-            return ans;
-        }
-        else if(numRows==2) {
-            vector<int> v;
-            v.push_back(1);
-            ans.push_back(v);
-            v.push_back(1);
-            ans.push_back(v);
-            return ans;
-        }
-        else{
-            vector<int> v;
-            v.push_back(1);
-            ans.push_back(v);
-            v.push_back(1);
-            ans.push_back(v);
-            int i= ans.size()-1;
+        ans.push_back({1});
+        ans.push_back({1,1});
+        int n= numRows-2;
+        int j= 1;
+        while(n--){
             vector<int> temp;
-            numRows-=2;
-            while(numRows--){
-                temp= ans[i];
-                vector<int> vp;
-                vp.push_back(1);
-                for(int j=0; j<temp.size()-1; j++){
-                    vp.push_back(temp[j]+temp[j+1]);
-                }
-                vp.push_back(1);
-                ans.push_back(vp);
-                i++;
+            temp.push_back(1);
+            vector<int> check= ans[j];
+            int len= check.size();
+            for(int i=0; i<len-1; i++){
+                temp.push_back(check[i]+check[i+1]);
             }
-            return ans;
+            temp.push_back(1);
+            ans.push_back(temp);
+            j++;
         }
+        return ans;
     }
 };
