@@ -1,41 +1,34 @@
-#include <bits/stdc++.h>
 class Solution {
 public:
     void nextPermutation(vector<int>& nums) {
-        int diff=INT_MAX, minInd=0, n=nums.size();
-        // for(int i=1; i<n; i++){
-        //     if(nums[i]>nums[0]){
-        //         if(nums[i]-nums[0]<diff){
-        //             diff= nums[i]-nums[0];
-        //             minInd= i;
-        //         }
-        //     }
-        // }
-        int changeInd=-1;
-        for(int i=n-1; i>0; i--){
-            if(nums[i]>nums[i-1]){
-                changeInd=i-1;
+        int n= nums.size();
+        int ind=-1;
+        for(int j=n-2; j>=0; j--){
+            if(nums[j]<nums[j+1]) {
+                ind= j;
                 break;
             }
         }
-        //cout<<changeInd<<endl;
-        if(changeInd==-1){
+
+        if(ind==-1){ 
             sort(nums.begin(), nums.end());
             return;
         }
-        diff=INT_MAX;
-        int nextInd;
-        for(int i=changeInd+1; i<n; i++){
-            if(nums[i]>nums[changeInd]){
-                if(nums[i]-nums[changeInd]<diff){
-                    diff= nums[i]-nums[changeInd];
-                    nextInd= i;
-                }
+
+        int minInd= -1;
+        int diff= INT_MAX;
+        for(int j=ind+1; j<nums.size(); j++){
+            int temp= abs(nums[ind]-nums[j]);
+            if(temp==0 || nums[j]<nums[ind]) continue;
+            if(diff>temp){
+                diff= temp;
+                minInd= j;
             }
         }
-        //cout<<nextInd<<endl;
-        swap(nums[changeInd], nums[nextInd]);
-        sort(nums.begin()+changeInd+1, nums.end());
-        
+        // cout<<ind<<" "<<minInd<<endl;
+        swap(nums[ind], nums[minInd]);
+        // for(auto it: nums) cout<<it<<" ";
+        sort(nums.begin()+ind+1, nums.end());
+
     }
 };
