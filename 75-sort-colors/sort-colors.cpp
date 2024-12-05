@@ -1,22 +1,12 @@
 class Solution {
 public:
-    int findSmallest(vector<int> nums, int ind){
-        int mini= INT_MAX;
-        int minInd=-1;
-        //cout<<ind<<" ";
-        for(int i=ind; i<nums.size(); i++){
-            if(mini>nums[i]){
-                minInd= i;
-                mini=nums[i];
-            }
-        }
-        return minInd;
-    }
     void sortColors(vector<int>& nums) {
-        for(int i=0; i<nums.size(); i++){
-            int temp= findSmallest(nums, i);
-            //cout<<nums[temp]<<endl;
-            int t= nums[i]; nums[i]= nums[temp]; nums[temp]= t;
+        for(int i=0; i<nums.size()-1; i++){
+            for(int j=0; j<nums.size()-1; j++){
+                if(nums[j]>nums[j+1]){
+                    int temp= nums[j]; nums[j]= nums[j+1]; nums[j+1]=temp;
+                }
+            }
         }
     }
 };
