@@ -1,48 +1,24 @@
 class Solution {
 public:
     void moveZeroes(vector<int>& nums) {
-         int cnt=0;
-        // vector<int> ans;
-        // for(auto i: nums){
-        //     if(i==0) cnt++;
-        //     else ans.push_back(i);
-        // }
-        // while(cnt--){
-        //     ans.push_back(0);
-        // }
-        // for(auto i: ans){
-        //     cout<<i<<" ";
-        // }
-        
-        int n=nums.size();
-        for(int i=0; i<n; i++){
-            if(nums[i]==0) cnt++;
+        //sort(nums.begin(), nums.end());
+        int cnt=0, n= nums.size();
+        vector<int> change;
+        for(auto it: nums) {
+            if(it==0) cnt++;
+            else change.push_back(it);
         }
-        int ep=n,sp=0;
-       
-            for(int i=0; i<n; i++){
-                if(cnt==0) break;
-                if(nums[i]==0){
-                    cnt--;
-                    for(int j=i; j<ep; j++){
-                        if(j+1>=ep) break;
-                        int temp=nums[j];
-                        nums[j]=nums[j+1];
-                        nums[j+1]=temp;
-                    }
-                    ep--;
-                    i--;
-                }
+        if(cnt!=n && cnt!=0){
+            int j=0;
+            for(int i=0; i<change.size(); i++){
+                nums[j]= change[i];
+                j++;
             }
-        
-        
-        //  while(cnt--){
-        //     ans.push_back(0);
-        // }
-         for(auto i: nums){
-            cout<<i<<" ";
+            j=n-1;
+            while(cnt--){
+                nums[j]=0;
+                j--;
+            }
         }
-
-        
     }
 };
